@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import django_heroku
+import dj_database_url
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
@@ -31,19 +33,20 @@ SECRET_KEY = 'django-insecure-&rvu+8khz2o-l58ee^g_o2xxf32-x)rhu&x+fe(b^(+rzk&*@j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'pruebaguitarra.herokuapp.com']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'gestionBD',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gestionBD'
+    
 ]
 
 MIDDLEWARE = [
@@ -92,6 +95,8 @@ DATABASES = {
       'NAME': BASE_DIR / 'db.sqlite3',
   }
 }
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -140,12 +145,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+WHITENOISE_USE_FINDERS = True
 
 STATIC_URL = '/static/'
+django_heroku.settings(locals())
+STATIC_ROOT = BASE_DIR.joinpath('staticfiles')
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

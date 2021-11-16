@@ -2,7 +2,6 @@ from django.http import HttpResponse
 from django.template import Template, Context, context
 from django.shortcuts import render, redirect
 from gestionBD.models import Leccion, Profesor, Estudiante, Cursa
-from tkinter import messagebox as MessageBox
 from django.contrib import messages
 
 def inicio(request): #Vista Inicio
